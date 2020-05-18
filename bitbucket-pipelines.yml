@@ -20,7 +20,7 @@ pipelines:
           - docker
           image: atlassian/pipelines-awscli
           script:
-          - echo $(aws ecr get-login-password --region $AWS_DEFAULT_REGION) > docker_push.sh
+          - echo $(aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCESS_KEY_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com) > docker_push.sh
           - sh docker_push.sh
       - step:
           name: Deploy to production

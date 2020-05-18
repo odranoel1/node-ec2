@@ -9,28 +9,28 @@ pipelines:
   branches:
     master:
       - step:
-        name: Installing
-          caches:
-          - node
+          name: Installing
+            caches:
+            - node
+            script:
+            - npm install
+      - step:
+          name: Build Docker Image
+          services:
+            - docker
+          image: atlassian/pipelines-awscli
           script:
-          - npm install
+              - docker_push.sh
       - step:
-        name: Build Docker Image
-        services:
-          - docker
-        image: atlassian/pipelines-awscli
-        script:
-            - docker_push.sh
-      - step:
-        name: Deploy to production
-        services:
-          - docker
-        script:
-          - pipe: atlassian/aws-ecs-deploy:1.1.2
-          variables:
-            AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-            AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-            AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
-            CLUSTER_NAME: $AWS_CLUSTER_NAME
-            SERVICE_NAME: $AWS_SERVICE_NAME
-            TASK_DEFINITION: $AWS_TASK_DEF
+          name: Deploy to production
+          services:
+            - docker
+          script:
+            - pipe: atlassian/aws-ecs-deploy:1.1.2
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $AWS_CLUSTER_NAME
+              SERVICE_NAME: $AWS_SERVICE_NAME
+              TASK_DEFINITION: $AWS_TASK_DEF

@@ -31,7 +31,6 @@
     "placementConstraints": [],
     "memory": "512",
     "compatibilities": [
-      "EC2",
       "FARGATE"
     ],
     "taskDefinitionArn": "arn:aws:ecs:us-east-1:182907940373:task-definition/fargate-task:1",

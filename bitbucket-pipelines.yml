@@ -11,7 +11,7 @@ pipelines:
           name: Build Docker Image
           services:
           - docker
-          image: amazon/aws-cli:latest
+          image: amazon/aws-cli
           script:
             - sh ./docker_push.sh
       - step:

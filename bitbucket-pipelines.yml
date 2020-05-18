@@ -13,7 +13,7 @@ pipelines:
           - docker
           image: atlassian/pipelines-awscli
           script:
-            - sh docker_push.sh
+            - sh ./docker_push.sh
       - step:
           name: Deploy to production
           services:

@@ -17,9 +17,9 @@ pipelines:
             - docker build -t $ECR_REPO_NAME .
             - docker tag $ECR_REPO_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:latest
             - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:latest
-            - IMGS_TO_DEL=$(aws ecr --region $AWS_DEFAULT_REGION list-images --repository-name $ECR_REPO_NAME --filter "tagStatus=UNTAGGED")
+            - IMGS_TO_DEL=$(aws ecr --region $AWS_DEFAULT_REGION list-images --repository-name $ECR_REPO_NAME --filter "tagStatus=UNTAGGED" --query 'imageIds[*]' --output json)
             - echo $IMGS_TO_DEL
-            - aws ecr --region $AWS_DEFAULT_REGION batch-delete-image --repository-name $ECR_REPO_NAME --image-ids $IMGS_TO_DEL
+            - aws ecr --region $AWS_DEFAULT_REGION batch-delete-image --repository-name $ECR_REPO_NAME --image-ids "$IMGS_TO_DEL" || true
       - step:
           name: Run task in Cluster
           services:

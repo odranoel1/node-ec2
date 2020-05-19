@@ -8,9 +8,9 @@ pipelines:
   branches:
     master:
       - step:
-          name: Build Docker Image
+          name: Build docker image to ECR
           services:
-          - docker
+            - docker
           image: amazon/aws-cli
           script:
             - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 182907940373.dkr.ecr.us-east-1.amazonaws.com
@@ -18,7 +18,7 @@ pipelines:
             - docker tag $ECR_REPO_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:latest
             - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:latest
       - step:
-          name: Deploy to production
+          name: Run Fargate task
           services:
             - docker
           script:

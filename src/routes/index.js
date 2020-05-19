@@ -3,7 +3,7 @@ const router = express.Router();
 
 //Para crear rutas del servidor
 router.get('/', (req, res) => {
-  res.send({status: 'Im alive bitch'});
+  res.send({status: 'Hello world'});
 });
 
 module.exports = router;

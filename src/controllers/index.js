@@ -7,6 +7,12 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const verifyToken = require('../utils/verifyToken');
 
+router.get('/', (req, res) => {
+  res.json({
+    app: "Hello perra"
+  });
+});
+
 router.post('/signup', async (req, res, next) => {
   let { username, email, password } = req.body;
 

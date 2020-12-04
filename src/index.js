@@ -2,7 +2,7 @@ const app       = require('./app');
 const dotenv    = require('dotenv');
 
 dotenv.config();
-require('./config/db.js'); //<--MongoDb
+// require('./config/db.js'); //<--MongoDb
 
 const init = () => {
     //Settings (Configuraciones del servidor de express)

@@ -29,7 +29,7 @@ def update_service(cluster, service, count):
             aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
             region_name=os.getenv('AWS_DEFAULT_REGION'),
         )
-        print("created successfully: {0}".format(client))
+        print("Created successfully: {0}".format(client))
     except ClientError as err
         print("Failed to create ECS client: {0}".format(err))
         return False

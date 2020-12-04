@@ -1,11 +1,31 @@
-# This is a sample build configuration for JavaScript.
-# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
-# Only use spaces to indent your .yml configuration.
-# -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-
+image: python:3.8-alpine
 pipelines:
   branches:
+    develop:
+      - step:
+          name: Update docker image
+          services:
+            - docker
+          cache:
+            - docker
+          image: amazon/aws-cli
+          script:
+            - echo "Define environment"
+            - export STAGE=development
+            - export TAG=latest
+            - echo "Build docker image"
+            - sh ./deploy/build_docker_image.sh
+      - step:
+          name: Deploy to AWS Fargate
+          caches:
+            -pip
+          script:
+            - echo "Install tools"
+            - pip3 install boto3
+            - pip3 install -U awscli
+            - echo "Update AWS ECS"
+            - python ./deploy/update_ecs.py $APP_NAME-cluster-$STAGE $APP_NAME-service-$STAGE 1
     master:
       - step:
           name: Build docker image to ECR
